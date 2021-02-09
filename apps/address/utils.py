@@ -1,19 +1,22 @@
 
 # Python
+import os
 import pyexcel
 # Django
 from django.http import JsonResponse
 # Models
 from apps.address.models import States, Cities, Colonies, Postcodes
+from infringements_back.settings import BASE_DIR
 
 
 def process_postcodes(request):
     count = 0
+    static_path = os.path.join(BASE_DIR, 'static')
     try:
         state = States.objects.get(name='Ciudad de México')
     except States.DoesNotExist:
         state = States.objects.create(name='Ciudad de México')
-    file_path = 'static/catalogs/address/ciudad_mexico.xlsx'
+    file_path = static_path + '/catalogs/address/ciudad_mexico.xlsx'
     records = pyexcel.get_records(file_name=file_path)
     for item in records:
         try:
