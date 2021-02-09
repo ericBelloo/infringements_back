@@ -6,8 +6,6 @@ from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 # Models
-from django.contrib.auth.models import User
-from apps.town_hall.models import Persons
 
 
 class InfringementLogin(APIView):
