@@ -16,11 +16,11 @@ class License(models.Model):
     state = models.ForeignKey(States, null=True, blank=True, on_delete=models.SET_NULL)
 
 
-class Address(models.Model):
-    street = models.CharField(max_length=50, null=True, blank=True)
-    street_a = models.CharField(max_length=50, null=True, blank=True)
-    street_b = models.CharField(max_length=50, null=True, blank=True)
-    # Foreign Key
+class DriverAddress(models.Model):
+    street = models.CharField(max_length=50, null=True, blank=True, verbose_name='driver_street')
+    street_a = models.CharField(max_length=50, null=True, blank=True, verbose_name='driver_street_a')
+    street_b = models.CharField(max_length=50, null=True, blank=True, verbose_name='driver_street_b')
+    # Foreign Key?
     postcode = models.ForeignKey(Postcodes, null=True, blank=True, on_delete=models.SET_NULL)
 
 
@@ -30,4 +30,4 @@ class Drivers(models.Model):
     maternal = models.CharField(max_length=50, null=True, blank=True)
     gender = models.BooleanField(null=True, blank=True)
     # Foreign Key
-    driver_address = models.ForeignKey(Address, null=True, blank=True, on_delete=models.SET_NULL)
+    driver_address = models.ForeignKey(DriverAddress, null=True, blank=True, on_delete=models.SET_NULL)
