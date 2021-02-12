@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     # My apps
     'apps.address',
     'apps.driver',
@@ -134,3 +135,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+
+# Cors
+CORS_ORIGIN_ALLOW_ALL = True
