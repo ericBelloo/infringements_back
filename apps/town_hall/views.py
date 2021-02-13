@@ -8,12 +8,18 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 # Serializers
 from apps.town_hall.serializers import UserSerializer, TownHallPersonSerializer
+# Models
+from django.contrib.auth.models import User
 
 
 class TownHallPersonView(APIView):
 
     @transaction.atomic
     def post(self, request):
+        if User.objects.filter(username=request.data.get('username')).exists():
+            return Response({
+                'message': 'User already exists',
+            }, status=status.HTTP_400_BAD_REQUEST)
         user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
             user = user_serializer.save()
@@ -32,7 +38,7 @@ class TownHallPersonView(APIView):
                 }, status=status.HTTP_201_CREATED)
         else:
             return Response({
-                'detail': user_serializer.errors,
+                'message': user_serializer.errors.values(),
             }, status=status.HTTP_201_CREATED)
 
 
