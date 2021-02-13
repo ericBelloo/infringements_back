@@ -18,7 +18,7 @@ class TownHallPersonView(APIView):
     def post(self, request):
         if User.objects.filter(username=request.data.get('username')).exists():
             return Response({
-                'message': 'User already exists',
+                'message': 'Email already exists',
             }, status=status.HTTP_400_BAD_REQUEST)
         user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
