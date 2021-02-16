@@ -1,4 +1,5 @@
 # Django
+from django.contrib.auth import authenticate
 from django.db import transaction
 # Rest framework
 from rest_framework.views import APIView
@@ -45,11 +46,14 @@ class TownHallPersonView(APIView):
 class CustomAuthToken(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            'token': token.key
-        }, status=status.HTTP_200_OK)
+        user = authenticate(username=request.data.get('username'), password=request.data.get('password'))
+        if user is not None:
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({
+                'token': token.key
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({
+                'message': 'Invalid User or Password'
+            }, status=status.HTTP_401_UNAUTHORIZED)
 
