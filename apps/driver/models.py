@@ -1,6 +1,6 @@
 # Models
 from django.db import models
-from apps.address.models import States, Postcodes
+from apps.address.models import States, Postcodes, Colonies
 # Mixins
 from helpers.mixins import BaseNameModel
 
@@ -20,7 +20,8 @@ class DriverAddress(models.Model):
     street = models.CharField(max_length=50, null=True, blank=True, verbose_name='driver_street')
     street_a = models.CharField(max_length=50, null=True, blank=True, verbose_name='driver_street_a')
     street_b = models.CharField(max_length=50, null=True, blank=True, verbose_name='driver_street_b')
-    # Foreign Key?
+    colony = models.ForeignKey(Colonies, null=True, blank=True, on_delete=models.SET_NULL)
+    # Foreign Key
     postcode = models.ForeignKey(Postcodes, null=True, blank=True, on_delete=models.SET_NULL)
 
 
@@ -30,4 +31,4 @@ class Drivers(models.Model):
     maternal = models.CharField(max_length=50, null=True, blank=True)
     gender = models.BooleanField(null=True, blank=True)
     # Foreign Key
-    driver_address = models.ForeignKey(DriverAddress, null=True, blank=True, on_delete=models.SET_NULL)
+    address = models.ForeignKey(DriverAddress, null=True, blank=True, on_delete=models.SET_NULL)
